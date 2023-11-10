@@ -1,3 +1,37 @@
+# NextJS Layout Error on Build
+
+This repository replicates [the error discussed here](https://github.com/vercel/next.js/discussions/58275#discussioncomment-7532936), regarding running `next build` with a layout and parallel routes.
+
+The error is as follows:
+
+```bash
+app/(auth)/archives/layout.tsx
+Type error: Layout "app/(auth)/archives/layout.tsx" has an invalid "default" export:
+  Type "Props" is not valid.
+```
+
+It seems to be caused by: 
+
+```TypeScript
+type Props = {
+  children: React.ReactNode
+  archivePanel: React.ReactNode
+  archiveForm: React.ReactNode
+}
+
+export default function Layout({ children, archivePanel, archiveForm }: Props) {
+  return (
+      <div className="h-full">
+          {children}
+          {archivePanel}
+          {archiveForm}
+      </div>
+  )
+}
+```
+
+To replicate please setup the project and run `npm run build`.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
